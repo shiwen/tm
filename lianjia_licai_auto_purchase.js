@@ -12,9 +12,12 @@
     "use strict";
 
     var amount = 0;
-    var bid_total = document.evaluate("//div/div/div/ul/li[2]/dl/dd/span", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0);
-    if (bid_total) {
-        amount = Math.min(amount, bid_total);
+    var r = document.evaluate("//div/div/div/ul/li[3]/dl/dd/span", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0);
+    if (r) {
+        var bid_total = parseInt(r.innerHTML);
+        if (bid_total) {
+            amount = Math.min(amount, bid_total);
+        }
     }
     var key = "";
 
