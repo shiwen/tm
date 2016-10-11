@@ -71,10 +71,6 @@
     };
 
     var bid_purchase = {
-        sent: 0,
-        received: 0,
-        response_map: {},
-
         salt: function(length) {
             var t = "poiuytrewqasdfghjklmnbvcxzQWERTYUIPLKJHGFDSAZXCVBNM";
             for (var s = "", i = 0; i < length; i++)
@@ -117,17 +113,6 @@
             return c;
         },
 
-        print_stats: function() {
-            var s = "Statistics (" + new Date().format("hh:mm:ss") + ")";
-            s += "\nTotal requests sent: " + this.sent;
-            s += "\nTotal responses received: " + this.received;
-            $.each(this.response_map, function(key, value) {
-                s += "\n" + key + ": " + value;
-            });
-            s += "\n";
-            console.log(s);
-        },
-
         run: function(user, bid_id, amount, key, count_down_seconds) {
             var obj = {
                 payKey: key,
@@ -136,24 +121,15 @@
                 cashCoupon: 0
             };
 
-            var t = this;
             setTimeout(function() {
                 var ajax_loop = setInterval(function() {
-                    t.sent += 1;
                     $.post("https://licai.lianjia.com/manageMoney/tenderFreeze", t.parameters(user, obj), function(response) {
-                        t.received += 1; // TODO ensure atomic increase
-                        t.response_map[response] = response in t.response_map ? t.response_map[response] + 1 : 1;
-                    }, "text");
+                        console.log("response: " + response);
+                    });
                 }, 20);
-                var stats_loop = setInterval(function() {
-                    t.print_stats();
-                }, 1000);
                 setTimeout(function() {
                     clearInterval(ajax_loop);
                 }, 10 * 1000);
-                setTimeout(function() {
-                    clearInterval(stats_loop);
-                }, 30 * 1000);
             }, (count_down_seconds - 5) * 1000);
         }
     };
