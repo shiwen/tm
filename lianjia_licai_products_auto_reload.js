@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Lianjia Licai Products Auto Reload
 // @namespace    http://shiwen.me/lianjialicai
-// @version      0.1
+// @version      0.3
 // @description  Reload Lianjia Licai product list automatically every few seconds
 // @author       Shiwen
 // @include      /^https?://licai\.lianjia\.com/licai/?$/
@@ -42,7 +42,8 @@
             var tr = r.snapshotItem(i);
             if (tr.getElementsByTagName("td")[5].getElementsByTagName("a")[0].text !== "已售罄") {
                 var anchor = tr.getElementsByTagName("td")[0].getElementsByTagName("h3")[0].getElementsByTagName("a")[0];
-                bids[anchor.text] = anchor.href;
+                var term = parseInt(tr.getElementsByTagName("td")[2].getElementsByTagName("span")[0].innerHTML);
+                bids[anchor.text] = {url: anchor.href, term: term};
             }
         }
         return bids;
@@ -50,7 +51,7 @@
 
     var notify = function(name, url) {
         var notification = {
-            image: "http://img.25pp.com/uploadfile/app/icon/20160402/1459607891731404.jpg",
+            image: "http://img.25pp.com/uploadfile/app/icon/20160506/1462520486823205.jpg",
             title: "链家理财项目",
             text: name,
             onclick: function() {
@@ -71,7 +72,10 @@
             $.each(bids_on_page, function(key, value) {
                 if (!(key in bids)) {
                     new_bids = true;
-                    notify(key, value);
+                    notify(key, value.url);
+                    if (value.term <= 30) {
+                        window.open(value.url, "_blank");
+                    }
                     bids[key] = value;
                 }
             });

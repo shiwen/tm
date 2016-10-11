@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Lianjia Licai Auto Purchase
 // @namespace    http://shiwen.me/lianjialicai
-// @version      0.1
+// @version      0.3
 // @description  Purchase Lianjia Licai financial products automatically
 // @author       Shiwen
 // @match        https://licai.lianjia.com/licai_*.html
@@ -12,7 +12,11 @@
     "use strict";
 
     var amount = 0;
-    var key = "G0NG,WU,YUAN";
+    var bid_total = document.evaluate("//div/div/div/ul/li[2]/dl/dd/span", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0);
+    if (bid_total) {
+        amount = Math.min(amount, bid_total);
+    }
+    var key = "";
 
     var clear_all_timers = function() {
         var highestTimeoutId = setTimeout(function() {});
