@@ -14,7 +14,7 @@
     var amount = 0;
     var r = document.evaluate("//div/div/div/ul/li[3]/dl/dd/span", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0);
     if (r) {
-        var bid_total = parseInt(r.innerHTML);
+        var bid_total = parseInt(r.innerHTML.replace(",", ""));
         if (bid_total) {
             amount = Math.min(amount, bid_total);
         }
