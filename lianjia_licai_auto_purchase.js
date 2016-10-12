@@ -121,10 +121,11 @@
                 cashCoupon: 0
             };
 
+            var t = this;
             setTimeout(function() {
                 var ajax_loop = setInterval(function() {
                     $.post("https://licai.lianjia.com/manageMoney/tenderFreeze", t.parameters(user, obj), function(response) {
-                        console.log("response: " + response);
+                        console.log("response: " + JSON.stringify(response));
                     });
                 }, 20);
                 setTimeout(function() {
