@@ -36,7 +36,7 @@
         var r = document.evaluate("//table/tbody/tr", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
         for (var i = 0; i < r.snapshotLength; i++) {
             var tr = r.snapshotItem(i);
-            if (tr.getElementsByTagName("td")[5].getElementsByTagName("a")[0].text !== "已售罄") {
+            if (tr.getElementsByTagName("td")[5].getElementsByTagName("a")[0].text !== "\u5df2\u552e\u7f44") {
                 var anchor = tr.getElementsByTagName("td")[0].getElementsByTagName("h3")[0].getElementsByTagName("a")[0];
                 var term = parseInt(tr.getElementsByTagName("td")[2].getElementsByTagName("span")[0].innerHTML);
                 bids[anchor.text] = {url: anchor.href, term: term};
@@ -48,7 +48,7 @@
     var notify = function(name, url) {
         var notification = {
             image: "https://raw.githubusercontent.com/shiwen/tm/master/images/lianjia_logo.jpg",
-            title: "链家理财项目",
+            title: "\u94fe\u5bb6\u7406\u8d22\u9879\u76ee",
             text: name,
             onclick: function() {
                 window.open(url, "_blank");

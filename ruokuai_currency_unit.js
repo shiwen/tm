@@ -10,9 +10,9 @@
 
 (function() {
     "use strict";
-    var kds = document.getElementsByClassName('h40');
+    var kds = document.getElementsByClassName("h40");
     Array.prototype.slice.call(kds).forEach(function(kd) {
         kd.childNodes[0].textContent = kd.childNodes[0].textContent.trim();
-        kd.childNodes[1].textContent = '￥' + (kd.childNodes[1].textContent / 2500).toFixed(2);
+        kd.childNodes[1].textContent = "\uffe5" + (kd.childNodes[1].textContent / 2500).toFixed(2);
     });
 })();
