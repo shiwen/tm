@@ -33,12 +33,14 @@
 
     var parse_bids = function() {
         var bids = {};
-        var product_divs = document.getElementsByClassName('product');
+        var product_divs = document.getElementsByClassName("product");
         for (var i = 0; i < product_divs.length; i++) {
-            var anchor = product_divs[i].getElementsByTagName('a')[1];
-            var term = parseInt(product_divs[i].getElementsByTagName('b')[1].innerHTML);
-            if (anchor.innerHTML !== "已售罄") {
-                var title = anchor.href.split('/')[5];
+            var anchor = product_divs[i].getElementsByTagName("a")[1];
+            if (anchor.innerHTML !== "\u5df2\u552e\u7f44") {
+                var term = parseInt(product_divs[i].getElementsByTagName("b")[1].innerHTML);
+                var description = product_divs[i].getElementsByTagName("a")[0].innerHTML;
+                var p = description.split("\u3011");
+                var title = p[0].slice(1).replace("-\u7b2c", " \u7b2c") + "\n" + term + "\u5929\n" + p[1].split(/[ ,\uff0c]/)[0].replace("\u67d0", " ");
                 bids[title] = {url: anchor.href, term: term};
             }
         }
@@ -48,7 +50,7 @@
     var notify = function(name, url) {
         var notification = {
             image: "http://img.25pp.com/uploadfile/app/icon/20161107/1478508056235391.jpg",
-            title: "91旺财理财项目",
+            title: "91\u65fa\u8d22\u7406\u8d22\u9879\u76ee",
             text: name,
             onclick: function() {
                 window.open(url, "_blank");
@@ -70,7 +72,7 @@
                 if (!(key in bids)) {
                     new_bids = true;
                     notify(key, value.url);
-                    if (value.term == 180) {
+                    if (value.term > 90) {
                         window.open(value.url, "_blank");
                     }
                     bids[key] = value;
