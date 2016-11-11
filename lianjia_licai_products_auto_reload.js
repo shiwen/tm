@@ -47,7 +47,7 @@
 
     var notify = function(name, url) {
         var notification = {
-            image: "http://img.25pp.com/uploadfile/app/icon/20160506/1462520486823205.jpg",
+            image: "https://raw.githubusercontent.com/shiwen/tm/master/lianjia_logo.jpg",
             title: "链家理财项目",
             text: name,
             onclick: function() {
