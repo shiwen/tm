@@ -25,7 +25,7 @@
     setTimeout(function() {
         retainBids = true;
         window.location.reload();
-    }, 20 * 1000);
+    }, 5 * 1000);
 
     var store_bids = function(bids) {
         GM_setValue("bids", JSON.stringify(bids));
