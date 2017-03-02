@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Lianjia Licai Auto Purchase
 // @namespace    http://shiwen.me/lianjialicai
-// @version      0.3
+// @version      0.5
 // @description  Purchase Lianjia Licai financial products automatically
 // @author       Shiwen
-// @match        https://licai.lianjia.com/licai_*.html
+// @match        https://www.lljr.com/licai_*.html
 // @grant        unsafeWindow
 // ==/UserScript==
 
@@ -12,13 +12,13 @@
     "use strict";
 
     var amount = 0;
-    var r = document.evaluate("//div/div/div/ul/li[3]/dl/dd/span", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0);
-    if (r) {
-        var bid_total = parseInt(r.innerHTML.replace(",", ""));
-        if (bid_total) {
-            amount = Math.min(amount, bid_total);
-        }
-    }
+    //var r = document.evaluate("//div/div/div/ul/li[3]/dl/dd/span", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0);
+    //if (r) {
+    //    var bid_total = parseInt(r.innerHTML.replace(",", ""));
+    //    if (bid_total) {
+    //        amount = Math.min(amount, bid_total);
+    //    }
+    //}
     var key = "";
 
     var clear_all_timers = function() {
@@ -124,7 +124,7 @@
             var t = this;
             setTimeout(function() {
                 var ajax_loop = setInterval(function() {
-                    $.post("https://licai.lianjia.com/manageMoney/tenderFreeze", t.parameters(user, obj), function(response) {
+                    $.post("https://www.lljr.com/manageMoney/tenderFreeze", t.parameters(user, obj), function(response) {
                         console.log("response: " + JSON.stringify(response));
                     });
                 }, 20);
@@ -146,7 +146,7 @@
 
         if (count_down_seconds !== 0) { // if the bid is not open
             if (user === "") { // if not logged in
-                login_page = window.open("https://licai.lianjia.com/login/", "_blank");
+                login_page = window.open("https://www.lljr.com/login/", "_blank");
                 login_page.focus();
                 if (count_down_seconds > 15) {
                     setTimeout(function() {
@@ -158,7 +158,7 @@
             }
         } else if ($("input.bingo").length !== 0) { // if the bid time is past but still open for sale
             if (user === "") { // if not logged in
-                login_page = window.open("https://licai.lianjia.com/login/", "_blank");
+                login_page = window.open("https://www.lljr.com/login/", "_blank");
                 login_page.focus();
             } else {
                 bid_purchase.run(user, bid_id, amount, key, 0);

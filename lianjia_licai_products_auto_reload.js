@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Lianjia Licai Products Auto Reload
 // @namespace    http://shiwen.me/lianjialicai
-// @version      0.4
+// @version      0.5
 // @description  Reload Lianjia Licai product list automatically every few seconds
 // @author       Shiwen
-// @include      /^https?://licai\.lianjia\.com/licai/?$/
+// @include      /^https?://www\.lljr\.com/licai/?$/
 // @grant        unsafeWindow
 // @grant        GM_setValue
 // @grant        GM_getValue
