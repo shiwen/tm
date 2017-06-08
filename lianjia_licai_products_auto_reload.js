@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Lianjia Licai Products Auto Reload
 // @namespace    http://shiwen.me/lianjialicai
-// @version      0.5
+// @version      0.6
 // @description  Reload Lianjia Licai product list automatically every few seconds
 // @author       Shiwen
 // @include      /^https?://www\.lljr\.com/licai/?$/
@@ -25,7 +25,7 @@
     setTimeout(function() {
         retainBids = true;
         window.location.reload();
-    }, 5 * 1000);
+    }, 15 * 1000);
 
     var store_bids = function(bids) {
         GM_setValue("bids", JSON.stringify(bids));
@@ -69,8 +69,8 @@
             $.each(bids_on_page, function(key, value) {
                 if (!(key in bids)) {
                     new_bids = true;
-                    notify(key, value.url);
-                    if (value.term <= 60) {
+                    if (value.term <= 90 && value.term > 12) {
+                        notify(key, value.url);
                         window.open(value.url, "_blank");
                     }
                     bids[key] = value;
