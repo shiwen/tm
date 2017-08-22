@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         91WangCai Products Auto Reload
 // @namespace    http://shiwen.me/91wangcai
-// @version      0.1
+// @version      0.2
 // @description  Reload 91WangCai product list automatically every few seconds
 // @author       Shiwen
 // @include      http://www.91wangcai.com/list
+// @include      https://www.91wangcai.com/list
 // @grant        unsafeWindow
 // @grant        GM_setValue
 // @grant        GM_getValue
@@ -25,7 +26,7 @@
     setTimeout(function() {
         retainBids = true;
         window.location.reload();
-    }, 1000);
+    }, 10000);
 
     var store_bids = function(bids) {
         GM_setValue("bids", JSON.stringify(bids));
@@ -38,9 +39,7 @@
             var anchor = product_divs[i].getElementsByTagName("a")[1];
             if (anchor.innerHTML !== "\u5df2\u552e\u7f44") {
                 var term = parseInt(product_divs[i].getElementsByTagName("b")[1].innerHTML);
-                var description = product_divs[i].getElementsByTagName("a")[0].innerHTML;
-                var p = description.split("\u3011");
-                var title = p[0].slice(1).replace("-\u7b2c", " \u7b2c") + "\n" + term + "\u5929\n" + p[1].split(/[ ,\uff0c]/)[0].replace("\u67d0", " ");
+                var title = product_divs[i].getElementsByTagName("a")[0].innerHTML;
                 bids[title] = {url: anchor.href, term: term};
             }
         }
