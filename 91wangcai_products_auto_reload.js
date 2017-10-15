@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         91WangCai Products Auto Reload
 // @namespace    http://shiwen.me/91wangcai
-// @version      0.4
+// @version      0.5
 // @description  Reload 91WangCai product list automatically every few seconds
 // @author       Shiwen
 // @include      http://www.91wangcai.com/list
@@ -20,6 +20,7 @@
     $(unsafeWindow).on("beforeunload", function() {
         if (!retainBids) {
             GM_deleteValue("bids");
+            GM_deleteValue("play");
         }
     });
 
@@ -58,11 +59,26 @@
         GM_notification(notification);
     };
 
+    var play = function() {
+        GM_setValue("play", "true");
+        var player = document.createElement('audio');
+        player.src = 'http://jizhujiang.com/message.wav';
+        player.preload = 'auto';
+        player.loop = true;
+        player.play();
+    };
+
     var main = function() {
         console.log(new Date().toLocaleString());
+        if (GM_getValue("play") === "true") {
+            play();
+        }
 
         var bids_json = GM_getValue("bids");
         var bids_on_page = parse_bids();
+        $.each(bids_on_page, function(key, value) {
+            console.log(key, value.term, value.url);
+        });
 
         if (bids_json === undefined) {
             store_bids(bids_on_page);
@@ -70,10 +86,10 @@
             var bids = JSON.parse(bids_json);
             var new_bids = false;
             $.each(bids_on_page, function(key, value) {
-                console.log(key, value.term, value.url);
                 if (!(key in bids)) {
                     new_bids = true;
                     if (value.term > 90) {
+                        play();
                         notify(key, value.url);
                         window.open(value.url, "_blank");
                     }
