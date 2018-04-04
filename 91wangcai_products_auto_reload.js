@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         91WangCai Products Auto Reload
 // @namespace    http://shiwen.me/91wangcai
-// @version      0.6
+// @version      0.7
 // @description  Reload 91WangCai product list automatically every few seconds
 // @author       Shiwen
 // @include      http://www.91wangcai.com/list
@@ -24,7 +24,7 @@
         }
     });
 
-    setTimeout(function() {
+    var reload = setTimeout(function() {
         retainBids = true;
         window.location.reload();
     }, 10000);
@@ -78,7 +78,7 @@
         var bids_json = GM_getValue("bids");
         var bids_on_page = parse_bids();
         $.each(bids_on_page, function(key, value) {
-            console.log(key, value.term, value.url);
+            console.log("bid on page:", key, value.term, value.url);
         });
 
         if (bids_json === undefined) {
@@ -89,10 +89,12 @@
             $.each(bids_on_page, function(key, value) {
                 if (!(key in bids)) {
                     new_bids = true;
-                    if (value.term > 90) {
+                    if (value.term >= 180) {
+                        console.log("new qualified bid:", key, value.term, value.url);
                         play();
                         notify(key, value.url);
                         window.open(value.url, "_blank");
+                        clearTimeout(reload);
                     }
                     bids[key] = value;
                 }
